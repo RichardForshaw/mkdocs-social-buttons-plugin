@@ -1,0 +1,7 @@
+# Git ignore file
+
+# Python cache
+**/__pycache__
+
+# Install stuff
+*.egg-info
