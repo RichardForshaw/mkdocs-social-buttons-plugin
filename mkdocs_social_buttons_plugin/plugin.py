@@ -16,7 +16,6 @@ logger = logging.getLogger("mkdocs.plugins")
 def button_class(name):
     return getattr(getattr(buttons, name), button_name_to_class(name))
 buttons_class_dict = { b.name: button_class(b.name) for b in pkgutil.iter_modules(buttons.__path__) if b.name != "base" }
-logger.info(buttons_class_dict)
 
 class ButtonConfig(Config):
     ''' Config for a button definition '''
@@ -44,6 +43,8 @@ class PluginConfig(Config):
     alternative_url_root = config_options.Optional(config_options.Type(str))
     apply_to_paths = config_options.ListOfItems(config_options.Type(str), default=[])
     exclude_hashtags = config_options.ListOfItems(config_options.Type(str), default=[])
+    button_style = config_options.Type(str, default="")
+    button_class = config_options.Type(str, default="")
 
 
 class SocialButtonsPlugin(BasePlugin[PluginConfig]):
@@ -75,7 +76,9 @@ class SocialButtonsPlugin(BasePlugin[PluginConfig]):
             page_url = self.config['alternative_url_root'] + page.abs_url
 
         # call the correct button class method for each defined class
-        button_list = ''.join(b.generate(page_url, hashtags=tags) for b in self.buttons.values())
+        def style_button(item):
+            return f'<li class="{self.config.button_class}" style="{self.config.button_style}">{item}</li>'
+        button_list = ''.join(map(style_button, (b.generate(page_url, hashtags=tags) for b in self.buttons.values())))
         script_list = ''.join(b.get_script() for b in self.buttons.values())
 
         # Update context

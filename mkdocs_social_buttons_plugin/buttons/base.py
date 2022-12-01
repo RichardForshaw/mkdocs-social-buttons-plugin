@@ -24,7 +24,7 @@ class ButtonBase():
         if not self.button_script:
             raise NotImplementedError("Missing required attribute: button_script")
 
-        logger.info(f"Building {self.config_name} button with config: {config.get(self.config_name)}")
+        logger.debug(f"Building {self.config_name} button with config: {config.get(self.config_name)}")
         if self.config_name in config:
             self.share_message = config[self.config_name]['message']
         else:
