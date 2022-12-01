@@ -2,9 +2,9 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.config.base import Config
 from mkdocs.config import config_options
 
+from .utils import button_name_to_class, strip_seps_fn
+
 import pkgutil
-import re
-from functools import partial
 
 from . import buttons
 
@@ -12,13 +12,9 @@ import logging
 
 logger = logging.getLogger("mkdocs.plugins")
 
-### Helper functions
-# Replace unsupported characters in a string
-strip_chars = partial(re.sub, r'/[ \-]/', '')
-
 # Populate a dictionary of { button_name: button_class } based on the
-def button_class(x):
-    return getattr(getattr(buttons, x), x.capitalize() + "Button")
+def button_class(name):
+    return getattr(getattr(buttons, name), button_name_to_class(name))
 buttons_class_dict = { b.name: button_class(b.name) for b in pkgutil.iter_modules(buttons.__path__) if b.name != "base" }
 logger.info(buttons_class_dict)
 
@@ -42,6 +38,7 @@ class PluginConfig(Config):
 
     # Default settings
     default_message = config_options.Type(str, default="This was shared using the MKDocs Social Buttons plugin!")
+    alternative_url_root = config_options.Optional(config_options.Type(str, default=None))
 
 
 class SocialButtonsPlugin(BasePlugin[PluginConfig]):
@@ -55,10 +52,13 @@ class SocialButtonsPlugin(BasePlugin[PluginConfig]):
     def on_page_context(self, context, page, config, nav):
         # Inject social buttons into the context
         logger.debug(f'Handle page context for {page.title}')
-        tags = list(map(strip_chars, page.meta.get('tags', [])))
+        tags = list(map(strip_seps_fn(), page.meta.get('tags', [])))
 
         # call the correct button class method for each defined class
-        button_list = ''.join(b.generate(page.canonical_url, tags) for b in self.buttons.values())
+        page_url = page.canonical_url
+        if self.config['alternative_url_root']:
+            page_url = self.config['alternative_url_root'] + page.abs_url
+        button_list = ''.join(b.generate(page_url, hashtags=tags) for b in self.buttons.values())
         script_list = ''.join(b.get_script() for b in self.buttons.values())
 
         context['social_buttons'] = button_list
