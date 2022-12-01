@@ -26,7 +26,11 @@ def populate_button_config(cls):
     # Decorator to load the config structure for each implemented button type
     for b in buttons_class_dict.keys():
         logger.info(f"social-buttons: found {b} button module")
-        setattr(cls, b, config_options.SubConfig(ButtonConfig))
+        option_item = config_options.SubConfig(ButtonConfig)
+        setattr(cls, b, option_item)
+
+        # Unfortunate hack to get around MKDocs initialising the schema so early
+        cls._schema = cls._schema + ((b, option_item),)
 
     return cls
 
