@@ -1,8 +1,8 @@
 # Twitter button class
 
-from .base import ButtonBase
+from .base import LinkButton
 
-class TwitterButton(ButtonBase):
+class TwitterButton(LinkButton):
     config_name = "twitter"
     button_url = "https://twitter.com/share?ref_src=twsrc%5Etfw"
     button_style = 'class="twitter-share-button" data-size="large"'
