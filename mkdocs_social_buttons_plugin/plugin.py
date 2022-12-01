@@ -39,6 +39,7 @@ class PluginConfig(Config):
     default_message = config_options.Type(str, default="This was shared using the MKDocs Social Buttons plugin!")
     alternative_url_root = config_options.Optional(config_options.Type(str))
     apply_to_paths = config_options.ListOfItems(config_options.Type(str), default=[])
+    exclude_hashtags = config_options.ListOfItems(config_options.Type(str), default=[])
 
 
 class SocialButtonsPlugin(BasePlugin[PluginConfig]):
@@ -58,7 +59,11 @@ class SocialButtonsPlugin(BasePlugin[PluginConfig]):
         logger.debug(f'Handle page context for {page.title}')
 
         # Get any tags defined in the page
-        tags = list(map(strip_seps_fn(), page.meta.get('tags', [])))
+        tags = list(
+                filter(lambda x: x not in self.config.exclude_hashtags,
+                    map(str.lower, map(strip_seps_fn(), page.meta.get('tags', [])))
+                    )
+                )
 
         # Apply additional configuration
         page_url = page.canonical_url
