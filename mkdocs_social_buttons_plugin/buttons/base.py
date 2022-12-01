@@ -43,7 +43,7 @@ class ButtonBase():
         return self.render_html(share_url, additional_attrs)
 
     def render_html(self, share_url, additional_attrs):
-        # Pure function
+        # Pure function - required to be implemented in child class.
         raise NotImplementedError
 
     def get_script(self):
