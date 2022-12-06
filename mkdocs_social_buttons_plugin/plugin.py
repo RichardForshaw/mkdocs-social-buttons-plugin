@@ -19,7 +19,7 @@ buttons_class_dict = { b.name: button_class(b.name) for b in pkgutil.iter_module
 
 class ButtonConfig(Config):
     ''' Config for a button definition '''
-    message = config_options.Optional(config_options.Type(str,default=None))
+    message = config_options.Optional(config_options.Type(str))
 
 def populate_button_config(cls):
     # Decorator to load the config structure for each implemented button type
