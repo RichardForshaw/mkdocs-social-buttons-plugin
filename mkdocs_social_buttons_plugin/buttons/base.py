@@ -29,7 +29,7 @@ class ButtonBase():
         # Get the correct sharing text
         FALLBACK_MESSAGE = 'Shared from MKDocs'
         button_config = config.get(self.config_name, {})
-        self.share_message = button_config.get('message', config.get('default_message', FALLBACK_MESSAGE))
+        self.share_message = button_config.get('message', None) or config.get('default_message', FALLBACK_MESSAGE)
 
     def generate(self, share_url, **kwargs):
         ''' Generate HTML based on the declared sub-class values'''
