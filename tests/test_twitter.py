@@ -17,6 +17,11 @@ def test_generate_twitter_button_HTML_with_default_message():
     expected = '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Shared with default message" data-url="http://testurl.com" data-show-count="false"></a>'
     assert test_obj.generate("http://testurl.com") == expected
 
+    # Test also when there is an empty button config
+    plugin_config = { 'default_message': "Shared with default message", 'twitter': {}}
+    test_obj2 = TwitterButton(plugin_config)
+    assert test_obj2.generate("http://testurl.com") == expected
+
 def test_generate_twitter_button_HTML_with_button_message():
     plugin_config = { 'twitter': {'message': "Shared with custom message"}}
     test_obj = TwitterButton(plugin_config)

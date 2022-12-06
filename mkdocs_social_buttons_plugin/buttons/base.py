@@ -25,10 +25,11 @@ class ButtonBase():
             raise NotImplementedError("Missing required attribute: button_script")
 
         logger.debug(f"Building {self.config_name} button with config: {config.get(self.config_name)}")
-        if self.config_name in config:
-            self.share_message = config[self.config_name]['message']
-        else:
-            self.share_message = config.get('default_message', 'Shared from MKDocs')
+
+        # Get the correct sharing text
+        FALLBACK_MESSAGE = 'Shared from MKDocs'
+        button_config = config.get(self.config_name, {})
+        self.share_message = button_config.get('message', config.get('default_message', FALLBACK_MESSAGE))
 
     def generate(self, share_url, **kwargs):
         ''' Generate HTML based on the declared sub-class values'''
