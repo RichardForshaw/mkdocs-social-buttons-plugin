@@ -2,6 +2,8 @@
 
 from mkdocs_social_buttons_plugin.buttons.twitter import TwitterButton
 
+from collections import namedtuple
+
 TWITTER_SCRIPT = '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
 
 def test_generate_basic_twitter_button_HTML():
@@ -53,4 +55,13 @@ def test_generate_twitter_button_with_hashtags():
 
 def test_get_script():
     test_obj = TwitterButton({})
-    assert test_obj.get_script() == '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
+    assert test_obj.get_script() == '<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
+
+def test_get_script_with_share_handler():
+    plugin_config = { 'twitter': { 'share_callback': 'function'}}
+    mock_page = namedtuple('Page', 'abs_url')('path/to/page')
+    test_obj = TwitterButton(plugin_config)
+
+    expected = '<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>' + \
+        '<script type="text/javascript" defer>twttr.ready(twttr.events.bind("click", ev => { function("path/to/page", "tweet") }))</script>'
+    assert test_obj.get_script(mock_page) == expected

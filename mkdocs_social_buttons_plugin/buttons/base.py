@@ -14,7 +14,11 @@ class ButtonBase():
     config_name = None
     button_text = ''
     button_style = ''
+
+    # Script text
     button_script = None
+    handler_script = None
+    handler_callback = None
 
     def __init__(self, config):
         ''' Create object, handle MKDocs config '''
@@ -30,6 +34,9 @@ class ButtonBase():
         FALLBACK_MESSAGE = 'Shared from MKDocs'
         button_config = config.get(self.config_name, {})
         self.share_message = button_config.get('message', None) or config.get('default_message', FALLBACK_MESSAGE)
+
+        # Store handler callback if it exists
+        self.handler_callback = button_config.get('share_callback')
 
     def generate(self, share_url, **kwargs):
         ''' Generate HTML based on the declared sub-class values'''
@@ -47,8 +54,12 @@ class ButtonBase():
         # Pure function - required to be implemented in child class.
         raise NotImplementedError
 
-    def get_script(self):
+    def get_script(self, mkd_page={}):
         ''' Get the script needed for the buttons to work '''
+        if self.handler_script and self.handler_callback:
+            # If the user has provided a callback, and there is a script configured to support it
+            return self.button_script + self.handler_script.format(handler=self.handler_callback, page=mkd_page)
+
         return self.button_script
 
 class LinkButton(ButtonBase):
