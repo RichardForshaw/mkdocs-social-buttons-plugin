@@ -58,7 +58,8 @@ class ButtonBase():
         ''' Get the script needed for the buttons to work '''
         if self.handler_script and self.handler_callback:
             # If the user has provided a callback, and there is a script configured to support it
-            return self.button_script + self.handler_script.format(handler=self.handler_callback, page=mkd_page)
+            function_handler_spec = f'{self.handler_callback}("{mkd_page.abs_url}", "{self.config_name}")'
+            return self.button_script + self.handler_script.format(function_handler=function_handler_spec)
 
         return self.button_script
 

@@ -37,7 +37,7 @@ The following config items are available to assist with styling:
  * `button_class`: A class that is rendered as the list item's class, i.e. `<li class="<named class>">`
  * `button_style`: A style that is rendered as the list item's style, i.e. `<li style="<named class>">`
 
-## Handling events
+## Handling share events
 
 `social-buttons` provides a way of handling button clicks. Where possible this is handled natively by the button itself.
 
@@ -55,6 +55,8 @@ my_handler("blog/about/", "twitter")
 ```
 
 This handler function must be provided by the client. The typical way of doing this is by adding scripts in the `extra_javascript` section of the `mkdocs.yml` config file.
+
+It should be noted however that this only tracks the clicks of the button, NOT the success of sharing the content.
 
 ## Available buttons
 

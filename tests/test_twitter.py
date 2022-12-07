@@ -63,5 +63,5 @@ def test_get_script_with_share_handler():
     test_obj = TwitterButton(plugin_config)
 
     expected = '<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>' + \
-        '<script type="text/javascript" defer>twttr.ready(twttr.events.bind("click", ev => { function("path/to/page", "tweet") }))</script>'
+        '<script type="text/javascript" defer>twttr.ready(twttr.events.bind("click", ev => { function("path/to/page", "twitter") }))</script>'
     assert test_obj.get_script(mock_page) == expected

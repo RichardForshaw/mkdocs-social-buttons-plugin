@@ -9,7 +9,7 @@ class TwitterButton(LinkButton):
 
     # Script string:
     button_script = '<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
-    handler_script = '<script type="text/javascript" defer>twttr.ready(twttr.events.bind("click", ev => {{ {handler}("{page.abs_url}", "tweet") }}))</script>'
+    handler_script = '<script type="text/javascript" defer>twttr.ready(twttr.events.bind("click", ev => {{ {function_handler} }}))</script>'
 
     # Custom attributes
     attr_show_count = "false"
