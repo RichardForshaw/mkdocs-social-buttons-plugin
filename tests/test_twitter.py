@@ -58,7 +58,7 @@ def test_get_script():
     assert test_obj.get_script() == '<script src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>'
 
 def test_get_script_with_share_handler():
-    plugin_config = { 'twitter': { 'share_callback': 'function'}}
+    plugin_config = { 'twitter': { 'button_share_callback': 'function'}}
     mock_page = namedtuple('Page', 'abs_url')('path/to/page')
     test_obj = TwitterButton(plugin_config)
 

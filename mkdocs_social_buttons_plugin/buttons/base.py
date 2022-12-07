@@ -36,7 +36,7 @@ class ButtonBase():
         self.share_message = button_config.get('message', None) or config.get('default_message', FALLBACK_MESSAGE)
 
         # Store handler callback if it exists
-        self.handler_callback = button_config.get('share_callback')
+        self.handler_callback = button_config.get('button_share_callback', None)
 
     def generate(self, share_url, **kwargs):
         ''' Generate HTML based on the declared sub-class values'''

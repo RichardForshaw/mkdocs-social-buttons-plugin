@@ -17,7 +17,7 @@ plugins:
           - guestauthor
         twitter:
           message: "A button specific message"
-          share_callback: "my_handler"
+          button_share_callback: "my_handler"
 ```
 
 A section is defined under `social-buttons` for each button that you wish to add. The settings for generating the buttons are as follows:
@@ -43,7 +43,7 @@ The following config items are available to assist with styling:
 
 _(Coming soon: support for handling any click if there is no native support)_
 
-This can be achieved by adding the `share_callback` property to the button's config. This will then call the handler that you have defined with two arguments:
+This can be achieved by adding the `button_share_callback` property to the button's config. This will then call the handler that you have defined with two arguments:
 
  * The path to the page containing the button being clicked
  * The button that was clicked to share it.
