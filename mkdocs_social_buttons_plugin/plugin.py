@@ -62,8 +62,6 @@ class SocialButtonsPlugin(BasePlugin[PluginConfig]):
             logger.info(f'social-buttons: skipping path: /{page.url}')
             return context
 
-        logger.debug(f'Handle page context for {page.title}')
-
         # Get any tags defined in the page
         tags = list(
                 filter(lambda x: x not in self.config.exclude_hashtags,
@@ -80,7 +78,7 @@ class SocialButtonsPlugin(BasePlugin[PluginConfig]):
         def style_button(item):
             return f'<li class="{self.config.button_class}" style="{self.config.button_style}">{item}</li>'
         button_list = ''.join(map(style_button, (b.generate(page_url, hashtags=tags) for b in self.buttons.values())))
-        script_list = ''.join(b.get_script() for b in self.buttons.values())
+        script_list = ''.join(b.get_script(page) for b in self.buttons.values())
 
         # Update context
         context['social_buttons'] = button_list

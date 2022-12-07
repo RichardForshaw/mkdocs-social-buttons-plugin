@@ -28,11 +28,11 @@ class ButtonBase():
         if not self.button_script:
             raise NotImplementedError("Missing required attribute: button_script")
 
-        logger.debug(f"Building {self.config_name} button with config: {config.get(self.config_name)}")
+        button_config = config.get(self.config_name, {})
+        logger.debug(f"Building {self.config_name} button with config: {button_config}")
 
         # Get the correct sharing text
         FALLBACK_MESSAGE = 'Shared from MKDocs'
-        button_config = config.get(self.config_name, {})
         self.share_message = button_config.get('message', None) or config.get('default_message', FALLBACK_MESSAGE)
 
         # Store handler callback if it exists
