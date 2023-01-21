@@ -47,7 +47,7 @@ def test_generate_twitter_button_with_hashtag():
     expected = '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Shared from MKDocs" data-url="http://testurl.com" data-hashtags="hashtag1" data-show-count="false"></a>'
     assert test_obj.generate("http://testurl.com", ['hashtag1']) == expected
 
-def test_generate_twitter_button_with_hashtags():
+def test_generate_twitter_button_with_multiple_hashtags():
     test_obj = TwitterButton({})
 
     expected = '<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Shared from MKDocs" data-url="http://testurl.com" data-hashtags="hashtag1,hashtag2,hashtag3" data-show-count="false"></a>'

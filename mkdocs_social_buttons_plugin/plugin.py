@@ -2,7 +2,7 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.config.base import Config
 from mkdocs.config import config_options
 
-from .utils import button_name_to_class, strip_seps_fn
+from .utils import button_name_to_class, get_page_sharing_tag_list
 
 import pkgutil
 
@@ -63,11 +63,7 @@ class SocialButtonsPlugin(BasePlugin[PluginConfig]):
             return context
 
         # Get any tags defined in the page
-        tags = list(
-                filter(lambda x: x not in self.config.exclude_hashtags,
-                    map(str.lower, map(strip_seps_fn(), page.meta.get('tags', [])))
-                    )
-                )
+        tags = get_page_sharing_tag_list(page, self.config)
 
         # Apply additional configuration
         page_url = page.canonical_url
