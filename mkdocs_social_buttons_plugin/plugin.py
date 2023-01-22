@@ -65,6 +65,9 @@ class SocialButtonsPlugin(BasePlugin[PluginConfig]):
         # Get any tags defined in the page
         tags = get_page_sharing_tag_list(page, self.config)
 
+        # Debug logging
+        logger.debug(f'Page: {page.canonical_url}, Page Tags: {page.meta.get("tags", [])}, Tags: {tags}')
+
         # Apply additional configuration
         page_url = page.canonical_url
         if self.config['alternative_url_root']:

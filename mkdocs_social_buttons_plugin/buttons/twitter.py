@@ -16,7 +16,6 @@ class TwitterButton(LinkButton):
 
     def generate(self, share_url, hashtags=[]):
         # Override generate to add hashtags
-        if len(hashtags):
-            self.attr_hashtags = ','.join(hashtags)
+        self.attr_hashtags = ','.join(hashtags) if hashtags else None
 
         return super(TwitterButton, self).generate(share_url)
